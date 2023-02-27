@@ -8,12 +8,6 @@ export function useTxStatus(
 ) {
   const [txStatus, setTxStatus] = useState<node.TxStatus | undefined>(undefined)
 
-  const alephium = getDefaultAlephiumWallet()
-  if (!alephium?.nodeProvider) {
-    throw Error('Alephium object is not initialized')
-  }
-
-  web3.setCurrentNodeProvider(alephium.nodeProvider)
   const subscriptionOptions: SubscribeOptions<node.TxStatus> = {
     pollingInterval: 3000,
     messageCallback: async (status: node.TxStatus): Promise<void> => {
@@ -31,6 +25,12 @@ export function useTxStatus(
   }
 
   useEffect(() => {
+    const alephium = getDefaultAlephiumWallet()
+    if (!alephium?.nodeProvider) {
+      throw Error('Alephium object is not initialized')
+    }
+    web3.setCurrentNodeProvider(alephium.nodeProvider)
+
     var subscription: TxStatusSubscription | undefined = undefined
     if (subscriptionOptions) {
       subscription = subscribeToTxStatus(subscriptionOptions, txId)
