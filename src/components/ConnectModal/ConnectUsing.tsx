@@ -4,6 +4,7 @@ import supportedConnectors from './../../constants/supportedConnectors';
 
 import { contentVariants } from '../Common/Modal';
 import ConnectWithInjector from './ConnectWithInjector';
+import ConnectWithWalletConnect from "./ConnectWithWalletConnect"
 
 import Alert from '../Common/Alert';
 
@@ -28,8 +29,7 @@ const ConnectUsing: React.FC<{ connectorId: string }> = ({ connectorId }) => {
 
   if (!connector) return <Alert>Connector not found</Alert>;
 
-  // TODO: Add WalletConnect
-  if (status === states.QRCODE) return <Alert>WalletConnect soon!</Alert>;
+  if (status === states.QRCODE) return <ConnectWithWalletConnect />;
 
   return (
     <AnimatePresence>
